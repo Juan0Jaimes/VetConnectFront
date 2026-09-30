@@ -1,0 +1,19 @@
+<div class="create-dialog-box">
+    <div class="title d-flex align-items-center justify-content-space-between">
+        <h4 class="mb-0">Confirmar</h4>
+        <button class="close-btn bg-transparent p-0 border-none" (click)="onCloseDialog()"><i class="flaticon-close"></i></button>
+    </div>
+    <form>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="d-block fw-semibold">{{data.message}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="text-end">
+            <button type="button" class="gray" [mat-dialog-close]="false"><i class="ri-close-fill"></i> Cancelar</button>
+            <button type="submit" [mat-dialog-close]="true"><i class="ri-check-fill"></i> Aceptar</button>
+        </div>
+    </form>
+</div>

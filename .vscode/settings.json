@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/a05742f0-3801-49fe-bff8-d3211a85c7b8/resourceGroups/rg-vetconnect-dev-001/providers/Microsoft.Web/sites/vetconnect",
+    "appService.deploySubpath": "."
+}

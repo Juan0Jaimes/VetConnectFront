@@ -1,0 +1,69 @@
+
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Perfil de Usuario</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/saas-app">
+                <i class="ri-home-8-line"></i>
+                Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Perfil de Usuario</li>
+    </ol>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayoutGap.sm="0" fxLayoutGap.md="0">
+    <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.lg="33%" fxFlex.md="100%" class="col">
+
+        <div
+            class="profile-card-box border-radius bg-white box-shadow mb-25"
+            [class.component-dark-theme]="themeService.isDark()"
+            [class.card-borderd-theme]="themeService.isCardBorder()"
+            [class.card-border-radius]="themeService.isCardBorderRadius()"
+            [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+        >
+        <div class="top border-top-radius position-relative">
+            <img src="assets/img/g2834.png" alt="welcome" width="35%" height="35%">
+            <h4 class="main-color">Bienvenido</h4>
+            <p class="main-color">En este espacio puedes acceder fácilmente a toda la información relevante sobre tu mascota.</p>
+        </div>
+            <div class="bottom">
+                <div class="d-md-flex align-items-end justify-content-space-between">
+                    <div class="profile-box position-relative">
+                        <img src="assets/img/user-male.png" class="rounded-circle" alt="Usuario">
+                        <h5 class="fw-semibold">{{user.firstName}} {{user.lastName}}</h5>
+                        <span class="d-block gray-color">{{user.phoneNumber}}</span>
+                    </div>
+                    <div class="impression-box text-center">
+                        <div class="chart">
+                            <apx-chart
+                                [series]="chartOptions.series!"
+                                [chart]="chartOptions.chart!"
+                                [plotOptions]="chartOptions.plotOptions!"
+                                [colors]="chartOptions.colors!"
+                                [labels]="chartOptions.labels!"
+                                [fill]="chartOptions.fill!"
+                            ></apx-chart>
+                        </div>
+                        <span class="d-block">Excelente</span>
+                        <h5 class="mb-0 fw-semibold gray-color">Completa tu perfil</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-personal-info *ngIf="user.code" [user]="user"></app-personal-info>
+
+        <!-- <app-activity-timeline></app-activity-timeline> -->
+
+    </div>
+    <div fxFlex="67%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.lg="67%" fxFlex.md="100%" class="col">
+
+        <app-stats></app-stats>
+
+        <app-overview></app-overview>
+
+        <app-tasks></app-tasks>
+        
+    </div>
+</div>

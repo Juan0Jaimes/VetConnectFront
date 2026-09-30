@@ -1,0 +1,141 @@
+.average-time-call-box {
+    .icon {
+        width: 55px;
+        height: 55px;
+        font-size: 30px;
+        border-radius: 50%;
+        margin-bottom: 25px;
+        color: var(--heraBlueColor);
+        background-color: #f2f0fa;
+
+        i {
+            left: 0;
+            right: 0;
+            top: 50%;
+            position: absolute;
+            transform: translateY(-50%);
+        }
+    }
+    h4 {
+        margin-bottom: 30px;
+        font: {
+            size: 28px;
+            family: var(--fontFamily) !important;
+        };
+        span {
+            font: {
+                size: 14px;
+                weight: 600;
+            };
+        }
+    }
+    h5 {
+        margin-bottom: 8px;
+        font: {
+            size: 16px;
+            family: var(--fontFamily) !important;
+        };
+    }
+    .chart {
+        top: 30px;
+        right: 30px;
+        max-width: 50%;
+        position: absolute;
+    }
+}
+.component-rtl-enabled {
+    .average-time-call-box {
+        .chart {
+            left: 30px;
+            right: auto;
+        }
+    }
+}
+.component-dark-theme {
+    .average-time-call-box {
+        .icon {
+            background-color: rgba(85, 112, 241, 0.12);
+        }
+    }
+}
+
+@media only screen and (max-width : 767px) {
+
+    .average-time-call-box {
+        .icon {
+            width: 45px;
+            height: 45px;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+        h4 {
+            margin-bottom: 10px;
+            font-size: 22px;
+
+            span {
+                font-size: 13px;
+            }
+        }
+        h5 {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .chart {
+            top: 20px;
+            right: 20px;
+            max-width: 50%;
+        }
+    }
+    .component-rtl-enabled {
+        .average-time-call-box {
+            .chart {
+                left: 20px;
+                right: auto;
+            }
+        }
+    }
+
+}
+
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .average-time-call-box {
+        .icon {
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+        h4 {
+            margin-bottom: 15px;
+            font-size: 25px;
+        }
+        h5 {
+            font-size: 15px;
+        }
+        .chart {
+            top: 25px;
+            right: 25px;
+            max-width: 50%;
+        }
+    }
+    .component-rtl-enabled {
+        .average-time-call-box {
+            .chart {
+                left: 25px;
+                right: auto;
+            }
+        }
+    }
+    
+}
+
+@media only screen and (min-width: 1600px) {
+
+    .average-time-call-box {
+        .chart {
+            max-width: 100%;
+        }
+    }
+
+}

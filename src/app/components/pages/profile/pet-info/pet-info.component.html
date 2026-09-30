@@ -1,0 +1,182 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Perfil Mascotas</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/saas-app">
+                <i class="ri-home-8-line"></i>
+                Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Perfil</li>
+    </ol>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayoutGap.sm="0" fxLayoutGap.md="0">
+    <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.lg="33%" fxFlex.md="100%" class="col">
+        <div
+            class="profile-card-box border-radius bg-white box-shadow mb-25"
+            [class.component-dark-theme]="themeService.isDark()"
+            [class.card-borderd-theme]="themeService.isCardBorder()"
+            [class.card-border-radius]="themeService.isCardBorderRadius()"
+            [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+        >
+        <div class="top border-top-radius position-relative">
+            <img src="assets/img/g2834.png" alt="welcome" width="35%" height="35%">
+            <h4 class="main-color">Bienvenido</h4>
+            <p class="main-color">En este espacio puedes acceder fácilmente a toda la información relevante sobre tu mascota.</p>
+        </div>
+            <div class="bottom">
+                <div class="d-md-flex align-items-end justify-content-space-between">
+                    <div class="profile-box position-relative">
+                        <img src="assets/img/pet.png" class="rounded-circle" alt="Mascota">
+                        <h5 class="fw-semibold">{{pet.name}}</h5>
+                        <span class="d-block gray-color">{{ getAge( pet.birthdate! | date:'yyyy-MM-dd') }} año(s)</span>
+                    </div>
+                    <div class="impression-box text-center">
+                        <div class="chart">
+                            <apx-chart
+                                [series]="chartOptions.series!"
+                                [chart]="chartOptions.chart!"
+                                [plotOptions]="chartOptions.plotOptions!"
+                                [colors]="chartOptions.colors!"
+                                [labels]="chartOptions.labels!"
+                                [fill]="chartOptions.fill!"
+                            ></apx-chart>
+                        </div>
+                        <span class="d-block">Excelente</span>
+                        <h5 class="mb-0 fw-semibold gray-color">Completa tu perfil</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-card class="mb-25 tagus-card">
+            <mat-card-header class="border-bottom">
+                <div matbadgeoverlap="false" class="mat-badge d-inline-block mat-badge-above mat-badge-after mat-badge-medium"><h5 class="mb-0">Propietarios</h5><span id="mat-badge-content-0" aria-hidden="true" class="mat-badge-content mat-badge-active">{{pet.secondaryUser!=null?"2":"1"}}</span></div>
+            </mat-card-header>
+            <mat-card-content class="top-instructors-box">
+                <div class="instructors-list d-flex flex-wrap">
+                    <div class="list-item">
+                        <div class="instructor-box bg-gray border-radius d-flex align-items-center justify-content-space-between">
+                            <div class="d-flex align-items-center">
+                                <img src="assets/img/user-male.png" class="border-radius" alt="user">
+                                <div class="info">
+                                    <h5>{{pet.primaryUser?.firstName}} {{pet.primaryUser?.lastName}}</h5>
+                                    <span class="d-block muted-color">{{pet.primaryUser?.email}} / {{pet.primaryUser?.phoneNumber}}</span>
+                                </div>
+                            </div>
+                            <a (click)="onView(pet.primaryUser?.code!)" class="position-relative muted-color plus-btn bg-white p-0 border-none rounded-circle">
+                                <i class="ri-user-search-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="list-item" *ngIf="pet.secondaryUser!=null">
+                        <div class="instructor-box bg-gray border-radius d-flex align-items-center justify-content-space-between">
+                            <div class="d-flex align-items-center">
+                                <img src="assets/img/user-male.png" class="border-radius" alt="user">
+                                <div class="info">
+                                    <h5>{{pet.secondaryUser.firstName}} {{pet.secondaryUser.lastName}}</h5>
+                                    <span class="d-block muted-color">{{pet.secondaryUser.email}}</span>
+                                </div>
+                            </div>
+                            <a (click)="onView(pet.secondaryUser.code!)" class="position-relative muted-color plus-btn bg-white p-0 border-none rounded-circle">
+                                <i class="ri-user-search-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="mb-25 personal-info-card tagus-card" [class.component-dark-theme]="themeService.isDark()">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Información Personal</h5>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- <span class="d-block fw-semibold mb-5">Bienvenido:</span>
+                <p>Este espacio está diseñado exclusivamente para ti, donde puedes acceder fácilmente a toda la información relevante sobre la salud y el historial médico de tu compañero peludo.</p> -->
+                <ul class="list ps-0 mb-0">
+                    <li>
+                        <span class="fw-semibold d-inline-block">Nombre:</span>
+                        <span class="gray-color">{{pet.name}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Fecha de Nacimiento:</span>
+                        <span class="gray-color">{{pet.birthdate | date:'dd-MMM-yyyy'}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Edad:</span>
+                        <span class="gray-color">{{ getAge( pet.birthdate! | date:'yyyy-MM-dd') }} año(s)</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Especie:</span>
+                        <span class="gray-color">{{pet.species?.name}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Raza:</span>
+                        <span class="gray-color">{{pet.breed}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Origen:</span>
+                        <span class="gray-color">{{pet.acquisitionType?.name}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Estado Reproductivo:</span>
+                        <span class="gray-color">{{pet.reproductiveStatus?.name}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Sexo:</span>
+                        <span class="gray-color">{{pet.sex}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Microchip:</span>
+                        <span class="gray-color">{{pet.microchip}}</span>
+                    </li>
+                    <li>
+                        <span class="fw-semibold d-inline-block">Color:</span>
+                        <span class="gray-color">{{pet.colour}}</span>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex="67%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.lg="67%" fxFlex.md="100%" class="col">
+        <mat-card class="mb-25 tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Historia Clínica</h5>
+            </mat-card-header>
+            <mat-card-content class="top-instructors-box">
+                <div class="timeline">
+                    <div class="event" *ngFor="let appointment of history">
+                        <div class="inner">
+                            <span class="date fw-semibold">
+                                {{appointment.startDate | date:'MMM'}}
+                            </span>
+                            <h5 class="mb-12"><i class="ri-empathize-line"></i> {{appointment.user?.firstName}} {{appointment.user?.lastName}}</h5>
+                            <span class="d-block muted-color mb-12 fs-14 example-badges">
+                                <span class="badge text-soft-success" (click)="onPrint(appointment.code!)">Imprimir</span>
+                                <span *ngIf="appointment.migrated" class="badge text-bg-warning">Migrada</span>
+                                <span class="badge text-outline-secondary">{{appointment.startDate | date:'dd-MMM-yyyy hh:mm:ss aa'}}</span>
+                            </span>
+                            <p>{{ appointment.reason }}</p>
+                            <div class="instructors-list d-flex flex-wrap">
+                                <div class="list-item" style="height: 280px; overflow-y: scroll;" *ngFor="let file of appointment.appointmentFiles">
+                                    <div class="instructor-box bg-gray border-radius d-flex align-items-center justify-content-space-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="assets/img/file-types/{{file.fileType?.substring(1,file.fileType?.length)?.toUpperCase()}}.png" class="border-radius" alt="">
+                                            <div class="info">
+                                                <h5>{{file.fileName}}</h5>
+                                                <span class="d-block muted-color">{{(file?.fileSize! / 1024).toFixed(2)}} Mb</span>
+                                            </div>
+                                        </div>
+                                        <a (click)="onDownloadFile(file?.code!)" class="position-relative muted-color plus-btn bg-white p-0 border-none rounded-circle">
+                                            <i class="ri-download-cloud-2-line"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

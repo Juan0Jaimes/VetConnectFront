@@ -1,0 +1,396 @@
+<div class="create-dialog-box">
+    <div class="title d-flex align-items-center justify-content-space-between">
+        <h4 class="mb-0">Consultas</h4>
+        <button class="close-btn bg-transparent p-0 border-none" (click)="onCloseDialog()"><i class="flaticon-close"></i></button>
+    </div>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                    <mat-stepper #stepper class="tagus-wizard" orientation="horizontal">
+                        <mat-step>
+                            <ng-template matStepLabel>General</ng-template>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Fecha</label>
+                                        <mat-form-field appearance="fill" class="date-input">
+                                            <mat-label>MM/DD/YYYY</mat-label>
+                                            <input matInput [matDatepicker]="appointmentDate" formControlName="appointmentDate" [class.is-invalid]="form.get('appointmentDate')!.touched && form.get('appointmentDate')!.invalid">
+                                            <mat-datepicker-toggle matIconSuffix [for]="appointmentDate"></mat-datepicker-toggle>
+                                            <mat-datepicker #appointmentDate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Hora</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-profile-line"></i>
+                                            <mat-label>Hora de la consulta</mat-label>
+                                            <input matInput formControlName="appointmentTime" [class.is-invalid]="form.get('appointmentTime')!.touched && form.get('appointmentTime')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Tipo de Documento</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Tipo de Documento</mat-label>
+                                            <mat-select formControlName="documentType" [class.is-invalid]="form.get('documentType')!.touched && form.get('documentType')!.invalid">
+                                                <mat-option *ngFor="let record of documentTypes" [value]="record.code">
+                                                {{record.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Número de Documento</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-profile-line"></i>
+                                            <mat-label>Número de documento</mat-label>
+                                            <input matInput formControlName="identificationNumber" [class.is-invalid]="form.get('identificationNumber')!.touched && form.get('identificationNumber')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Nombres</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-user-3-line"></i>
+                                            <mat-label>Nombres</mat-label>
+                                            <input matInput formControlName="firstName" [class.is-invalid]="form.get('firstName')!.touched && form.get('firstName')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Apellidos</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-user-3-line"></i>
+                                            <mat-label>Apellidos</mat-label>
+                                            <input matInput formControlName="lastName" [class.is-invalid]="form.get('lastName')!.touched && form.get('lastName')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Dirección de correo electrónico</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-mail-line"></i>
+                                            <mat-label>Digite la dirección de correo electrónico</mat-label>
+                                            <input matInput formControlName="email" [class.is-invalid]="form.get('email')!.touched && form.get('email')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Celular</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-phone-line"></i>
+                                            <mat-label>Celular</mat-label>
+                                            <input matInput formControlName="phoneNumber" [class.is-invalid]="form.get('phoneNumber')!.touched && form.get('phoneNumber')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Dirección</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-map-pin-line"></i>
+                                            <mat-label>Dirección</mat-label>
+                                            <input matInput formControlName="address" [class.is-invalid]="form.get('address')!.touched && form.get('address')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button mat-flat-button matStepperNext class="tagus">Siguiente</button>
+                            </div>
+                        </mat-step>
+                        <mat-step>
+                            <ng-template matStepLabel>Paciente</ng-template>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Nombre</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-empathize-line"></i>
+                                            <mat-label>Nombre de la mascota</mat-label>
+                                            <input matInput formControlName="petName" [class.is-invalid]="form.get('petName')!.touched && form.get('petName')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Fecha de Nacimiento</label>
+                                        <mat-form-field appearance="fill" class="date-input">
+                                            <mat-label>MM/DD/YYYY</mat-label>
+                                            <input matInput [matDatepicker]="birthdate" formControlName="birthdate" [class.is-invalid]="form.get('birthdate')!.touched && form.get('birthdate')!.invalid">
+                                            <mat-datepicker-toggle matIconSuffix [for]="birthdate"></mat-datepicker-toggle>
+                                            <mat-datepicker #birthdate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Especie</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Especie</mat-label>
+                                            <mat-select>
+                                                <mat-option *ngFor="let record of species" [value]="record.code">
+                                                {{record.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Raza</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-filter-3-line"></i>
+                                            <mat-label>Raza</mat-label>
+                                            <input matInput formControlName="breed" [class.is-invalid]="form.get('breed')!.touched && form.get('breed')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Tipo Adquisición</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Tipo de adquisición</mat-label>
+                                            <mat-select formControlName="acquisitionType" [class.is-invalid]="form.get('acquisitionType')!.touched && form.get('acquisitionType')!.invalid">
+                                                <mat-option *ngFor="let record of acquisitionTypes" [value]="record.code">
+                                                {{record.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Esterilizado</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Esterilizado</mat-label>
+                                            <mat-select formControlName="reproductiveStatus" [class.is-invalid]="form.get('reproductiveStatus')!.touched && form.get('reproductiveStatus')!.invalid">
+                                                <mat-option *ngFor="let record of booleanList" [value]="record.code">
+                                                {{record.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Sexo</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Sexo</mat-label>
+                                            <mat-select formControlName="sex" [class.is-invalid]="form.get('sex')!.touched && form.get('sex')!.invalid">
+                                                <mat-option *ngFor="let record of sex" [value]="record.code">
+                                                {{record.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Microchip</label>
+                                        <mat-form-field appearance="fill">
+                                            <i class="ri-cpu-line"></i>
+                                            <mat-label>Microchip</mat-label>
+                                            <input matInput formControlName="microchip" [class.is-invalid]="form.get('microchip')!.touched && form.get('microchip')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12" style="height: 110px;">
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button mat-flat-button matStepperPrevious class="gray me-15">Regresar</button>
+                                <button mat-flat-button matStepperNext class="tagus">Siguiente</button>
+                            </div>
+                        </mat-step>
+                        <mat-step>
+                            <ng-template matStepLabel>Procedimientos / Servicios</ng-template>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Nombre</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Nombre</mat-label>
+                                            <mat-select  [(value)]="selectedProcedure">
+                                                <mat-option *ngFor="let record of veterinaryProcedures" [value]="record.procedure!.code">
+                                                {{record.procedure!.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Cantidad</label>
+                                        <mat-form-field appearance="fill">
+                                            <input matInput formControlName="microchip" [class.is-invalid]="form.get('microchip')!.touched && form.get('microchip')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>                                
+                                <div class="col-lg-2 col-md-2 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">&nbsp;</label>
+                                        <button mat-flat-button color="primary" class="me-15" (click)="onAddProcedure()">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Nombre</label>
+                                        <mat-form-field appearance="fill" class="example-full-width">
+                                            <i class="ri-list-check"></i>
+                                            <mat-label>Nombre</mat-label>
+                                            <mat-select>
+                                                <mat-option *ngFor="let record of veterinaryServices" [value]="record.service!.code">
+                                                {{record.service!.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">Cantidad</label>
+                                        <mat-form-field appearance="fill">
+                                            <input matInput formControlName="microchip" [class.is-invalid]="form.get('microchip')!.touched && form.get('microchip')!.invalid">
+                                        </mat-form-field>
+                                    </div>
+                                </div>      
+                                <div class="col-lg-2 col-md-2 col-sm-6">
+                                    <div class="tagus-form-group">
+                                        <label class="d-block mb-12 fw-semibold gray-color">&nbsp;</label>
+                                        <button mat-flat-button color="primary" class="me-15">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <table mat-table [dataSource]="dataSource">
+
+                                        <!-- Name Column -->
+                                        <ng-container matColumnDef="name">
+                                            <th mat-header-cell *matHeaderCellDef class="text-start">Nombre</th>
+                                            <td mat-cell *matCellDef="let element" class="text-start">
+                                                <div class="d-flex align-items-center name-info">
+                                                    <a routerLink="/task-details">
+                                                        {{element.serviceName}}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Quantity Column -->
+                                        <ng-container matColumnDef="quantity">
+                                            <th mat-header-cell *matHeaderCellDef class="text-start">Cantidad</th>
+                                            <td mat-cell *matCellDef="let element" class="text-start">
+                                                <div class="d-flex align-items-center name-info">
+                                                    <a routerLink="/task-details">
+                                                        {{element.quantity}}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Action Column -->
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <button mat-flat-button color="warn" class="me-15">Eliminar</button>
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12" style="height: 275px;">
+                                </div>
+                            </div>
+                            <div class="row ps-15 mt-5 mb-5">
+                                <button mat-flat-button matStepperPrevious class="gray me-15">Regresar</button>
+                                <button mat-flat-button matStepperNext class="tagus">Siguiente</button>
+                            </div>
+                        </mat-step>
+                        <mat-step>
+                            <ng-template matStepLabel>Finalizar</ng-template>
+                            <h4 class="mb-20 mt-25">Resumen del pedido {{saveAppointmentCommand!.procedures!.length}}</h4>
+                            <div class="table-responsive">
+                                <table class="">
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-semibold main-color">No</th>
+                                            <th class="fw-semibold gray-color text-start">Procedimiento / Servicio</th>
+                                            <th class="fw-semibold gray-color">Cantidad</th>
+                                            <th class="fw-semibold gray-color">Precio Unitario</th>
+                                            <th class="fw-semibold gray-color text-end">Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let record of saveAppointmentCommand.procedures;let indexOfelement=index;">
+                                            <td class="main-color fw-semibold">{{indexOfelement + 1}}.</td>
+                                            <td class="text-start fw-semibold">
+                                                {{record.procedureCode}}
+                                            </td>
+                                            <td class="gray-color">{{indexOfelement}}</td>
+                                            <td class="gray-color">$0</td>
+                                            <td class="gray-color text-end">$0</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="gray-color fw-semibold">Sub Total:</td>
+                                            <td class="gray-color fw-semibold text-end">$4000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="gray-color fw-semibold">Impuestos:</td>
+                                            <td class="gray-color fw-semibold text-end">$0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="gray-color fw-semibold">Envío:</td>
+                                            <td class="gray-color fw-semibold text-end">$0.00</td>
+                                        </tr>
+                                        <tr class="total">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="fw-semibold">Total:</td>
+                                            <td class="fw-semibold text-end">$4000.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <button mat-flat-button matStepperPrevious class="gray me-15">Regresar</button>
+                                <button mat-flat-button (click)="onSave($event)" color="primary">Finalizar</button>
+                            </div>
+                        </mat-step>
+                    </mat-stepper>
+            </div>
+        </div>
+        <!-- <div class="text-end">
+            <button type="button" class="gray" [mat-dialog-close]="false"><i class="ri-close-fill"></i> Cancelar</button>
+            <button type="submit" [mat-dialog-close]="true"><i class="ri-check-fill"></i> Aceptar</button>
+        </div> -->
+    </form>
+</div>

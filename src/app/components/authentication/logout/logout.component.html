@@ -1,0 +1,29 @@
+<div
+    class="h-100vh pt-50 pb-50"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.card-borderd-theme]="themeService.isCardBorder()"
+    [class.card-border-radius]="themeService.isCardBorderRadius()"
+>
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="logout-box text-center bg-white border-radius ms-auto me-auto">
+                <div class="logo bg-white contenedor">
+                    <a routerLink="/" class="d-flex align-items-center" style="font-weight: 700;font-size: 24px;font-family: var(--headingFontFamily);color: var(--blackColor);">
+                        <img src="assets/img/logo-icon.png" alt="logo" class="me-10">
+                        <span>VetConnect</span>
+                    </a>
+                </div>
+                <div class="logo white-logo">
+                    <a routerLink="/" class="d-flex align-items-center">
+                        <img src="assets/img/logo-icon.png" alt="logo">
+                        <span>VetConnect</span>
+                    </a>
+                </div>
+                <img src="assets/img/icon/coffee.png" alt="coffee">
+                <h5 class="fw-semibold mb-12">Estás desconectada(o)</h5>
+                <p>Gracias por usar <span class="fw-semibold">VetConnect</span></p>
+                <a mat-flat-button class="tagus d-block fw-semibold" routerLink="/">Iniciar Sesión</a>
+            </div>
+        </div>
+    </div>
+</div>

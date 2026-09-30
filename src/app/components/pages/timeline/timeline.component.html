@@ -1,0 +1,63 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Clientes</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/saas-app">
+                <i class="ri-home-8-line"></i>
+                Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Clientes</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-4" *ngFor="let user of users">
+        <mat-card class="mb-25 p-team-card tagus-card">
+            <mat-card-header class="border-bottom">
+                <div class="d-flex align-items-center">
+                    <img src="assets/img/user-male.png" class="rounded-circle" width="60" alt="user">
+                    <div class="title ms-15">
+                        <h5 class="mb-5">{{user.firstName}} {{user.lastName}}</h5>
+                        <span class="d-block main-color">{{user.email !== '' ? user.email: '@'}}</span>
+                    </div>
+                </div>
+                <button type="button" mat-button class="position-relative dot-btn p-0 border-none"
+                    [matMenuTriggerFor]="monthMenu">
+                    <i class="ri-more-fill"></i>
+                </button>
+                <mat-menu #monthMenu="matMenu" class="monthMenu" xPosition="before">
+                    <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                        Open Project
+                    </button>
+                    <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                        Edit
+                    </button>
+                    <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                        Delete
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+                <h5 class="mb-8">{{user.phoneNumber}}</h5>
+                <p>{{user.address}}</p>
+                <div class="list mt-20 d-md-flex align-items-center justify-content-space-between">
+                    <div class="images d-flex align-items-center">
+                        <img src="assets/img/pet.png" class="rounded-circle" width="40" alt="user" *ngFor="let pet of user.petPrimaryUsers">
+                        <!-- <img src="assets/img/user/user17.jpg" class="rounded-circle" width="40" alt="user">
+                        <img src="assets/img/user/user16.jpg" class="rounded-circle" width="40" alt="user"> -->
+                        <div class="d-inline-block rounded-circle fw-semibold text-center">+{{user.petPrimaryUsers?.length}}</div>
+                    </div>
+                    <a mat-raised-button class="gray" (click)="onView(user.code!)">Ver Detalles <i
+                            class="flaticon-chevron"></i></a>
+                </div>
+                <!-- <span class="d-block fw-semibold mt-25 mb-8 gray-color">Design Project</span>
+        <div class="d-flex mb-8 align-items-center justify-content-space-between">
+            <span class="gray-color d-block">48/80</span>
+            <span class="gray-color d-block">50% Completed</span>
+        </div>
+        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar> -->
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

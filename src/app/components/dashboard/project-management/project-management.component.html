@@ -1,0 +1,59 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Project Management</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Project Management</li>
+    </ol>
+</div>
+
+<app-pm-stats></app-pm-stats>
+
+<div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" fxLayoutGap.xs="0" fxLayout.sm="column" fxLayoutGap.sm="0" fxLayout.md="column" fxLayoutGap.md="0">
+    <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+
+        <app-task-distribution></app-task-distribution>
+
+    </div>
+    <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+
+        <app-my-tasks></app-my-tasks>
+
+    </div>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayout.sm="column" fxLayoutGap.sm="0" fxLayout.md="column" fxLayoutGap.md="0">
+    <div fxFlex="33.333333%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+        <app-pm-total-users></app-pm-total-users>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+        <app-completed-tasks></app-completed-tasks>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+        <app-tasks-performance></app-tasks-performance>
+    </div>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayoutGap.sm="0" fxLayoutGap.md="0">
+
+    <div fxFlex="66.666666%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+
+        <app-issues-summary></app-issues-summary>
+
+        <app-pm-all-projects></app-pm-all-projects>
+
+    </div>
+
+    <div fxFlex="31.555555%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+
+        <app-pm-team-members></app-pm-team-members>
+
+        <app-pm-activity-timeline></app-pm-activity-timeline>
+
+    </div>
+
+</div>

@@ -1,0 +1,104 @@
+
+<app-settings></app-settings>
+
+<mat-card class="mb-25 tagus-card" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">Mi Veterinaria</h5>
+    </mat-card-header>
+    <mat-card-content class="vetContainer">
+        <form [formGroup]="form">
+            <eco-fab-speed-dial direction="left" animationMode="scale" style="position: fixed; bottom: 16px; right: 16px; z-index: 1000;">
+                <eco-fab-speed-dial-trigger>
+                  <button mat-fab color="primary" ><mat-icon fontIcon="menu"></mat-icon></button>
+                </eco-fab-speed-dial-trigger>
+              
+                <eco-fab-speed-dial-actions>
+                  <button mat-mini-fab color="primary" (click)="onUpdate()"><mat-icon fontIcon="save"></mat-icon></button>
+                  <button mat-mini-fab color="primary" (click)="onCancel()"><mat-icon fontIcon="undo"></mat-icon></button>
+                </eco-fab-speed-dial-actions>
+            </eco-fab-speed-dial>
+            <div class="col-lg-12 col-md-6">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="tagus-form-group">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre</mat-label>
+                                <i class="ri-empathize-line"></i>
+                                <input matInput type="text" formControlName="veterinaryName" 
+                                [class.is-invalid]="form.get('veterinaryName')!.touched && form.get('veterinaryName')!.invalid" maxlength="50">
+                                <button *ngIf="veterinary.name" matSuffix mat-icon-button aria-label="Clear" (click)="veterinary.name=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <app-document-type-select [formGroup]="form" [selectedDocumentType]="veterinary.documentType?.code!" (outputRaiseEvent)="onHandleDocumentType($event)"></app-document-type-select>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="tagus-form-group">
+                            <mat-form-field class="example-full-width">
+                                <i class="ri-profile-line"></i>
+                                <mat-label>Numero de Identificacion</mat-label>
+                                <input matInput type="text" formControlName="veterinaryIdentificationNumber" 
+                                [class.is-invalid]="form.get('veterinaryIdentificationNumber')!.touched && form.get('veterinaryIdentificationNumber')!.invalid">
+                                <button *ngIf="veterinary.identificationNumber" matSuffix mat-icon-button aria-label="Clear" (click)="veterinary.identificationNumber=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="tagus-form-group">
+                            <mat-form-field class="example-full-width">
+                                <i class="ri-phone-line"></i>
+                                <mat-label>Numero de telefono</mat-label>
+                                <input matInput type="text" formControlName="veterinaryPhone" 
+                                [class.is-invalid]="form.get('veterinaryPhone')!.touched && form.get('veterinaryPhone')!.invalid">
+                                <button *ngIf="veterinary.phoneNumber" matSuffix mat-icon-button aria-label="Clear" (click)="veterinary.phoneNumber=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="tagus-form-group">
+                            <mat-form-field class="example-full-width">
+                                <i class="ri-mail-line"></i>
+                                <mat-label>Email</mat-label>
+                                <input matInput type="text" formControlName="veterinaryEmail" 
+                                [class.is-invalid]="form.get('veterinaryEmail')!.touched && form.get('veterinaryEmail')!.invalid">
+                                <button *ngIf="veterinary.email" matSuffix mat-icon-button aria-label="Clear" (click)="veterinary.email=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <app-cities [formGroup]="form" [selectedCityCode]="veterinary.city?.code" (outputRaiseEvent)="onHandleCity($event)"></app-cities>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="tagus-form-group">
+                            <mat-form-field class="example-full-width">
+                                <i class="ri-map-pin-line"></i>
+                                <mat-label>Direccion</mat-label>
+                                <input matInput type="text" formControlName="veterinaryAdress" 
+                                [class.is-invalid]="form.get('veterinaryAdress')!.touched && form.get('veterinaryAdress')!.invalid">
+                                <button *ngIf="veterinary.address" matSuffix mat-icon-button aria-label="Clear" (click)="veterinary.address=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="mb-25 tagus-card" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">Imagen de mi veterinaria</h5>
+    </mat-card-header>
+</mat-card>

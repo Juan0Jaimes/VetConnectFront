@@ -1,0 +1,130 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.xs="0">
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="profile-card-box tagus-card mb-25">
+            <div class="d-md-flex align-items-center justify-content-space-between">
+                <div class="profile-box">
+                    <img src="assets/img/user-male.png" class="rounded-circle" alt="user">
+                    <h5 class="fw-semibold">{{user.firstName}} {{user.lastName}}</h5>
+                    <span class="d-block gray-color">{{user.profile?.name}}</span>
+                </div>
+                <div class="impression-box text-center">
+                    <div class="chart">
+                        <apx-chart
+                            [series]="chartOptions.series!"
+                            [chart]="chartOptions.chart!"
+                            [plotOptions]="chartOptions.plotOptions!"
+                            [colors]="chartOptions.colors!"
+                            [labels]="chartOptions.labels!"
+                            [fill]="chartOptions.fill!"
+                        ></apx-chart>
+                    </div>
+                    <span class="d-block">Excellent</span>
+                    <h5 class="mb-0 fw-semibold gray-color">Impression Share</h5>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="icon">
+                    <i class="ri-money-dollar-circle-line"></i>
+                </div>
+                <div class="title text-end">
+                    <h3>{{totalUsers}}</h3>
+                    <span class="d-block gray-color">Total Clientes</span>
+                </div>
+            </div>
+            <div class="mb-12 info d-flex justify-content-space-between align-items-center">
+                <span class="d-block gray-color fw-semibold">Información Completada</span>
+                <span class="d-block gray-color">50%</span>
+            </div>
+            <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="icon">
+                    <i class="ri-bar-chart-fill"></i>
+                </div>
+                <div class="title text-end">
+                    <h3>{{totalPets}}</h3>
+                    <span class="d-block gray-color">Total Mascotas</span>
+                </div>
+            </div>
+            <div class="mb-12 info d-flex justify-content-space-between align-items-center">
+                <span class="d-block gray-color fw-semibold">Información Completada</span>
+                <span class="d-block gray-color">40%</span>
+            </div>
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayout.sm="column" fxLayoutGap.sm="0" fxLayout.md="column" fxLayoutGap.md="0" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.sm="50%" fxFlex.md="50%" class="col">
+        <mat-card class="stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <span class="d-block gray-color">Total Orders</span>
+                    <h3>{{totalEmailPending}}</h3>
+                </div>
+                <div class="icon">
+                    <i class="ri-stack-line"></i>
+                </div>
+            </div>
+            <p class="fs-14">
+                <span class="badge fw-semibold">4.87% <i class="ri-arrow-up-s-line"></i></span> Leads this month
+            </p>
+        </mat-card>
+    </div>
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.sm="50%" fxFlex.md="50%" class="col">
+        <mat-card class="stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <span class="d-block gray-color">Overall Revenue</span>
+                    <h3>$28,452</h3>
+                </div>
+                <div class="icon">
+                    <i class="ri-pie-chart-line"></i>
+                </div>
+            </div>
+            <p class="fs-14">
+                <span class="badge down fw-semibold">0.50% <i class="ri-arrow-down-s-line"></i></span> Leads this month
+            </p>
+        </mat-card>
+    </div>
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.sm="50%" fxFlex.md="50%" class="col">
+        <mat-card class="stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <span class="d-block gray-color">Average Price</span>
+                    <h3>$200.5</h3>
+                </div>
+                <div class="icon">
+                    <i class="ri-money-cny-box-line"></i>
+                </div>
+            </div>
+            <p class="fs-14">
+                <span class="badge fw-semibold">2.22% <i class="ri-arrow-up-s-line"></i></span> Leads this month
+            </p>
+        </mat-card>
+    </div>
+    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.sm="50%" fxFlex.md="50%" class="col">
+        <mat-card class="stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <span class="d-block gray-color">Total Clients</span>
+                    <h3>7,805</h3>
+                </div>
+                <div class="icon">
+                    <i class="ri-user-follow-line"></i>
+                </div>
+            </div>
+            <p class="fs-14">
+                <span class="badge fw-semibold">1.21% <i class="ri-arrow-up-s-line"></i></span> Leads this month
+            </p>
+        </mat-card>
+    </div>
+</div>

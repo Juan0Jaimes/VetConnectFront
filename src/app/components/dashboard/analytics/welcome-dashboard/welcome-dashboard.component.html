@@ -1,0 +1,39 @@
+<div
+    class="welcome-box border-radius bg-white box-shadow mb-25"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.card-borderd-theme]="themeService.isCardBorder()"
+    [class.card-border-radius]="themeService.isCardBorderRadius()"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <div class="top border-top-radius position-relative">
+        <img src="assets/img/welcome.png" alt="welcome">
+        <h4 class="main-color">Welcome to Tagus Dashboard !</h4>
+        <p class="main-color">You have done 68% 😎 more sales today. Check your new badge in your profile.</p>
+    </div>
+    <div class="bottom">
+        <div class="d-md-flex align-items-end justify-content-space-between">
+            <div class="profile-box position-relative">
+                <img src="assets/img/admin.jpg" class="rounded-circle" alt="admin">
+                <h5 class="fw-semibold">Adison Jeck</h5>
+                <span class="d-block gray-color">Programmer</span>
+            </div>
+            <div class="btn">
+                <a routerLink="/profile" class="default-btn position-relative fw-semibold d-inline-block">View Profile <i class="flaticon-chevron"></i></a>
+            </div>
+            <div class="impression-box text-center">
+                <div class="chart">
+                    <apx-chart
+                        [series]="chartOptions.series!"
+                        [chart]="chartOptions.chart!"
+                        [plotOptions]="chartOptions.plotOptions!"
+                        [colors]="chartOptions.colors!"
+                        [labels]="chartOptions.labels!"
+                        [fill]="chartOptions.fill!"
+                    ></apx-chart>
+                </div>
+                <span class="d-block">Excellent</span>
+                <h5 class="mb-0 fw-semibold gray-color">Impression Share</h5>
+            </div>
+        </div>
+    </div>
+</div>

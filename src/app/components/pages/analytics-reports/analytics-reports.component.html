@@ -1,0 +1,39 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Reports</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Reports</li>
+    </ol>
+</div>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayoutGap.sm="0" fxLayoutGap.md="0">
+
+    <div fxFlex="66.666666%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" fxLayoutGap.xs="0" fxLayoutGap.sm="0">
+            <div fxFlex="66.666666%" fxFlex.xs="100%" fxFlex.sm="100%" class="col">
+
+                <app-ar-revenue-report></app-ar-revenue-report>
+
+            </div>
+            <div fxFlex="33.333333%" fxFlex.xs="100%" fxFlex.sm="100%" class="col">
+
+                <app-ar-average-report></app-ar-average-report>
+
+            </div>
+        </div>
+    </div>
+
+    <div fxFlex="33.333333%" fxFlex.xs="100%" fxFlex.sm="100%" fxFlex.md="100%" class="col">
+
+        <app-ar-sessions></app-ar-sessions>
+
+    </div>
+
+</div>
+
+<app-ar-browser-used-traffic-reports></app-ar-browser-used-traffic-reports>

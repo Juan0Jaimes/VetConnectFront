@@ -1,0 +1,20 @@
+<mat-card class="mb-25 tagus-card" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">Configuración</h5>
+    </mat-card-header>
+    <mat-card-content>
+        <nav>
+            <ul class="ps-0 mt-0">
+                <li>
+                    <a routerLink="/veterinary-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">General</a>
+                </li>
+                <li>
+                    <a routerLink="/veterinarian-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Veterinarios</a>
+                </li>
+                <li>
+                    <a routerLink="/procedures-services-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Procedimientos/Servicios</a>
+                </li>
+            </ul>
+        </nav>
+    </mat-card-content>
+</mat-card>

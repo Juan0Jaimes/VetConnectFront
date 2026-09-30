@@ -1,0 +1,1353 @@
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Consultas</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Admin
+            </a>
+        </li>
+        <li class="breadcrumb-item fw-semibold">Consultas</li>
+    </ol>
+</div>
+
+<div fxLayout="row" fxLayoutGap="25px" fxLayout.xs="column" fxLayoutGap.xs="0" fxLayout.sm="column" fxLayoutGap.sm="0"
+    *ngIf="!isEditing">
+    <div fxFlex="23%" fxFlex.xl="20%" fxFlex.xs="100%" fxFlex.sm="100%" class="col">
+
+        <mat-card class="mb-25 file-manager-box tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Filtro Cliente</h5>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="tagus-form-group">
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Nombre Propietario</mat-label>
+                        <input matInput maxlength="50" (blur)="onPetOwner($event)">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="mb-25 file-manager-box tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Filtro Paciente</h5>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="tagus-form-group">
+                    <mat-form-field appearance="fill">
+                        <i class="ri-bear-smile-line"></i>
+                        <mat-label>Nombre Mascota</mat-label>
+                        <input matInput maxlength="50" (blur)="onPetName($event)">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="mb-25 file-manager-box tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Filtro Veterinarios</h5>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Usuarios" cdkDropList>
+                    <mat-chip-option cdkDrag color="accent" *ngFor="let record of users"
+                        (click)="onChangeSelectedUser(record)" (cdkDragDropped)="onDrop($event)">
+                        <i class="ri-account-circle-line"></i> {{record.firstName!.split(" ",1)}}
+                        {{record.lastName!.split(" ",1)}}
+                    </mat-chip-option>
+                </mat-chip-listbox>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="mb-25 tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Filtro Modalidad</h5>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-chip-listbox class="mat-mdc-chip-set-stacked" aria-label="Modalidades">
+                    <mat-chip-option color="accent" *ngFor="let record of modalities" (click)="onChangeModality(record)"
+                        class="cool-event">
+                        <i class="ri-map-pin-line"></i> {{record.name}}
+                    </mat-chip-option>
+                </mat-chip-listbox>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex="77%" fxFlex.xl="80%" fxFlex.xs="100%" fxFlex.sm="100%" class="col">
+        <mat-card class="mb-25 tagus-card">
+            <mat-card-header class="border-bottom">
+                <h5 class="mb-0">Agenda</h5>
+                <button mat-flat-button class="default-btn tagus" (click)="onAdd()"><i class="ri-add-fill"></i> Crear
+                    Consulta</button>
+            </mat-card-header>
+            <mat-card-content>
+                <full-calendar #calendar [options]="calendarOptions">
+                    <ng-template #eventContent let-arg>
+                        <b>{{arg.timeText}}</b>
+                        <i>{{arg.event.title}}</i>
+                    </ng-template>
+                </full-calendar>
+                <div id="contextMenu" class="context-menu">
+                    <button mat-menu-item (click)="onEdit()">
+                        <i class="ri-calendar-todo-line"></i>
+                        <span>Editar consulta</span>
+                    </button>
+                    <button mat-menu-item>
+                        <i class="ri-calendar-event-fill"></i>
+                        <span>Iniciar Consulta</span>
+                    </button>
+                    <button mat-menu-item (click)="onUpdateStatus()">
+                        <i class="ri-calendar-close-line"></i>
+                        <span>Cancelar Consulta</span>
+                    </button>
+                    <button mat-menu-item (click)="onClose()">
+                        <i class="ri-close-circle-line"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>Redial</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                        <mat-icon>voicemail</mat-icon>
+                        <span>Check voice mail</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<!--Editing appointment-->
+<div class="row" *ngIf="isEditing">
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Gestionar Consulta</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Fecha</label>
+                                    <mat-form-field appearance="fill" class="date-input">
+                                        <mat-label>MM/DD/YYYY</mat-label>
+                                        <input matInput [matDatepicker]="appointmentDate" [min]="minDate"
+                                            [max]="maxDate" formControlName="appointmentDate"
+                                            [class.is-invalid]="form.get('appointmentDate')!.touched && form.get('appointmentDate')!.invalid">
+                                        <mat-datepicker-toggle matIconSuffix
+                                            [for]="appointmentDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #appointmentDate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Hora</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-time-line"></i>
+                                        <mat-label>Hora</mat-label>
+                                        <mat-select formControlName="appointmentTime"
+                                            [class.is-invalid]="form.get('appointmentTime')!.touched && form.get('appointmentTime')!.invalid">
+                                            <mat-option *ngFor="let record of hours" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Veterinario</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Veterinario</mat-label>
+                                        <mat-select formControlName="veterinarian"
+                                            [class.is-invalid]="form.get('veterinarian')!.touched && form.get('veterinarian')!.invalid">
+                                            <mat-option *ngFor="let record of users" [value]="record.code">
+                                                {{record.firstName}} {{record.lastName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Modalidad</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Modalidad</mat-label>
+                                        <mat-select formControlName="modality"
+                                            [class.is-invalid]="form.get('modality')!.touched && form.get('modality')!.invalid">
+                                            <mat-option *ngFor="let record of modalities" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Información adicional</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Digite información relevante</mat-label>
+                                        <textarea matInput #additionalinfo rows="3" maxlength="250"
+                                            formControlName="additionalInfo"
+                                            [class.is-invalid]="form.get('additionalInfo')!.touched && form.get('additionalInfo')!.invalid"></textarea>
+                                        <mat-hint align="end" class="mt-5">{{additionalinfo.value.length}} /
+                                            250</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <!--Cliente-->
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Cliente</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-tab-group>
+                            <mat-tab label="Principal">
+                                <br />
+                                <div class="row mb-15">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Tipo de
+                                                Documento</label>
+                                            <mat-form-field appearance="fill" class="example-full-width">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Tipo de Documento</mat-label>
+                                                <mat-select formControlName="primaryDocumentType"
+                                                    [class.is-invalid]="form.get('primaryDocumentType')!.touched && form.get('primaryDocumentType')!.invalid">
+                                                    <mat-option *ngFor="let record of documentTypes"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Número de
+                                                Documento</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-profile-line"></i>
+                                                <mat-label>Número de documento</mat-label>
+                                                <input matInput #message formControlName="primaryIdentificationNumber"
+                                                    [class.is-invalid]="form.get('primaryIdentificationNumber')!.touched && form.get('primaryIdentificationNumber')!.invalid"
+                                                    (blur)="onBlurPrimaryClient()">
+                                                <mat-hint align="end" class="mt-5">{{message.value.length}} /
+                                                    50</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Nombres</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-user-3-line"></i>
+                                                <mat-label>Nombres</mat-label>
+                                                <input matInput #primaryFirstName formControlName="primaryFirstName"
+                                                    maxlength="50"
+                                                    [class.is-invalid]="form.get('primaryFirstName')!.touched && form.get('primaryFirstName')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{primaryFirstName.value.length}} /
+                                                    20</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Apellidos</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-user-3-line"></i>
+                                                <mat-label>Apellidos</mat-label>
+                                                <input matInput #primaryLastName formControlName="primaryLastName"
+                                                    maxlength="50"
+                                                    [class.is-invalid]="form.get('primaryLastName')!.touched && form.get('primaryLastName')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{primaryLastName.value.length}} /
+                                                    20</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Correo
+                                                electrónico</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-mail-line"></i>
+                                                <mat-label>Digite el correo electrónico</mat-label>
+                                                <input matInput #primaryEmail formControlName="primaryEmail"
+                                                    maxlength="128"
+                                                    [class.is-invalid]="form.get('primaryEmail')!.touched && form.get('primaryEmail')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{primaryEmail.value.length}} /
+                                                    128</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Celular</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-phone-line"></i>
+                                                <mat-label>Celular</mat-label>
+                                                <input matInput #primaryPhoneNumber formControlName="primaryPhoneNumber"
+                                                    maxlength="50"
+                                                    [class.is-invalid]="form.get('primaryPhoneNumber')!.touched && form.get('primaryPhoneNumber')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{primaryPhoneNumber.value.length}} /
+                                                    50</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Dirección</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-map-pin-line"></i>
+                                                <mat-label>Dirección</mat-label>
+                                                <input matInput #primaryAddress formControlName="primaryAddress"
+                                                    maxlength="256"
+                                                    [class.is-invalid]="form.get('primaryAddress')!.touched && form.get('primaryAddress')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{primaryAddress.value.length}} /
+                                                    256</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Adicional">
+                                <br />
+                                <div class="row mb-15">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Tipo de
+                                                Documento</label>
+                                            <mat-form-field appearance="fill" class="example-full-width">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Tipo de Documento</mat-label>
+                                                <mat-select formControlName="secondaryDocumentType"
+                                                    [class.is-invalid]="form.get('secondaryDocumentType')!.touched && form.get('secondaryDocumentType')!.invalid">
+                                                    <mat-option *ngFor="let record of documentTypes"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Número de
+                                                Documento</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-profile-line"></i>
+                                                <mat-label>Número de documento</mat-label>
+                                                <input matInput #secondaryIdentificationNumber
+                                                    formControlName="secondaryIdentificationNumber"
+                                                    [class.is-invalid]="form.get('secondaryIdentificationNumber')!.touched && form.get('secondaryIdentificationNumber')!.invalid"
+                                                    (blur)="onBlurSecondaryClient()">
+                                                <mat-hint align="end"
+                                                    class="mt-5">{{secondaryIdentificationNumber.value.length}} /
+                                                    50</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Nombres</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-user-3-line"></i>
+                                                <mat-label>Nombres</mat-label>
+                                                <input matInput #secondaryFirstName formControlName="secondaryFirstName"
+                                                    maxlength="50"
+                                                    [class.is-invalid]="form.get('secondaryFirstName')!.touched && form.get('secondaryFirstName')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{secondaryFirstName.value.length}} /
+                                                    20</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Apellidos</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-user-3-line"></i>
+                                                <mat-label>Apellidos</mat-label>
+                                                <input matInput #secondaryLastName formControlName="secondaryLastName"
+                                                    maxlength="50"
+                                                    [class.is-invalid]="form.get('secondaryLastName')!.touched && form.get('secondaryLastName')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{secondaryLastName.value.length}} /
+                                                    20</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Correo
+                                                electrónico</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-mail-line"></i>
+                                                <mat-label>Digite el correo electrónico</mat-label>
+                                                <input matInput #secondaryEmail formControlName="secondaryEmail"
+                                                    maxlength="128"
+                                                    [class.is-invalid]="form.get('secondaryEmail')!.touched && form.get('secondaryEmail')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{secondaryEmail.value.length}} /
+                                                    128</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Celular</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-phone-line"></i>
+                                                <mat-label>Celular</mat-label>
+                                                <input matInput #secondaryPhoneNumber
+                                                    formControlName="secondaryPhoneNumber" maxlength="50"
+                                                    [class.is-invalid]="form.get('secondaryPhoneNumber')!.touched && form.get('secondaryPhoneNumber')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{secondaryPhoneNumber.value.length}}
+                                                    /
+                                                    50</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Dirección</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-map-pin-line"></i>
+                                                <mat-label>Dirección</mat-label>
+                                                <input matInput #secondaryAddress formControlName="secondaryAddress"
+                                                    maxlength="256"
+                                                    [class.is-invalid]="form.get('secondaryAddress')!.touched && form.get('secondaryAddress')!.invalid">
+                                                <mat-hint align="end" class="mt-5">{{secondaryAddress.value.length}} /
+                                                    256</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+
+                    </mat-card-content>
+                </mat-card>
+                <!--Paciente-->
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Paciente</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Nombre</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-empathize-line"></i>
+                                        <mat-label>Nombre de la mascota</mat-label>
+                                        <input matInput #petName formControlName="petName" maxlength="64"
+                                            [class.is-invalid]="form.get('petName')!.touched && form.get('petName')!.invalid"
+                                            (blur)="onBlurPet()">
+                                        <mat-hint align="end" class="mt-5">{{petName.value.length}} / 64</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Fecha de Nacimiento</label>
+                                    <mat-form-field appearance="fill" class="date-input">
+                                        <mat-label>MM/DD/YYYY</mat-label>
+                                        <input matInput [matDatepicker]="birthdate" formControlName="birthdate"
+                                            [max]="maxPetBirthDate"
+                                            [class.is-invalid]="form.get('birthdate')!.touched && form.get('birthdate')!.invalid">
+                                        <mat-datepicker-toggle matIconSuffix [for]="birthdate"></mat-datepicker-toggle>
+                                        <mat-datepicker #birthdate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Especie</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Especie</mat-label>
+                                        <mat-select formControlName="species"
+                                            [class.is-invalid]="form.get('species')!.touched && form.get('species')!.invalid">
+                                            <mat-option *ngFor="let record of species" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Raza</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-filter-3-line"></i>
+                                        <mat-label>Raza</mat-label>
+                                        <input matInput #breed formControlName="breed" maxlength="64"
+                                            [class.is-invalid]="form.get('breed')!.touched && form.get('breed')!.invalid">
+                                        <mat-hint align="end" class="mt-5">{{breed.value.length}} / 64</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Origen</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Origen</mat-label>
+                                        <mat-select formControlName="acquisitionType"
+                                            [class.is-invalid]="form.get('acquisitionType')!.touched && form.get('acquisitionType')!.invalid">
+                                            <mat-option *ngFor="let record of acquisitionTypes" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Estado Reproductivo</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Estado Reproductivo</mat-label>
+                                        <mat-select formControlName="reproductiveStatus"
+                                            [class.is-invalid]="form.get('reproductiveStatus')!.touched && form.get('reproductiveStatus')!.invalid">
+                                            <mat-option *ngFor="let record of booleanList" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Sexo</label>
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <i class="ri-list-check"></i>
+                                        <mat-label>Sexo</mat-label>
+                                        <mat-select formControlName="sex"
+                                            [class.is-invalid]="form.get('sex')!.touched && form.get('sex')!.invalid">
+                                            <mat-option *ngFor="let record of sex" [value]="record.code">
+                                                {{record.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Microchip</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-cpu-line"></i>
+                                        <mat-label>Microchip</mat-label>
+                                        <input matInput #microchip formControlName="microchip" maxlength="128"
+                                            [class.is-invalid]="form.get('microchip')!.touched && form.get('microchip')!.invalid">
+                                        <mat-hint align="end" class="mt-5">{{microchip.value.length}} /
+                                            128</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <!--Motivo de la consulta-->
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Motivo de la Consulta</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="tagus-form-group">
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Motivo de la Consulta</mat-label>
+                                        <textarea matInput #reason formControlName="reason" rows="3"
+                                            maxlength="4000"></textarea>
+                                        <mat-hint align="end" class="mt-5">{{reason.value.length}} /
+                                            4000</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Estado de ánimo</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="mood-slider">
+                            <span class="material-symbols-outlined">mood_bad</span>
+                            <mat-slider class="slider" min="1" max="10" step="1" showTickMarks discrete
+                                [displayWith]="formatLabel">
+                                <input matSliderThumb [(ngModel)]="sliderValue" formControlName="sliderMood">
+                            </mat-slider>
+                            <span class="mood-icon material-symbols-outlined">mood</span>
+                        </div>
+                    </mat-card-content>
+                    <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="tagus-form-group">
+                            <label class="d-block mb-12 fw-semibold gray-color">Estado de ánimo</label>
+                            <mat-form-field appearance="fill">
+                                <i class="ri-information-line"></i>
+                                <mat-label>Estado de ánimo</mat-label>
+                                <textarea matInput rows="3" maxlength="250" formControlName="mood"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                </mat-card>
+                <!--Examen clinico-->
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Exámen Clínico</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                        <mat-tab-group>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">ecg_heart</span>
+                                    Sistema cardiobascular
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Frecuencia cardíaca</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>(Lat/Min) </mat-label>
+                                                <input matInput formControlName="heartRate">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Pulso cardíaco</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>BPM</mat-label>
+                                                <input matInput formControlName="heartBeat">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tagus-form-group">
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Sistema agregar en BD</mat-label>
+                                        <textarea matInput rows="3" maxlength="250"
+                                            formControlName="bodyCondition"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">pulmonology</span>
+                                    Sistema respiratorio
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Frecuencia
+                                                Respiratoria</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>(Resp/Min)</mat-label>
+                                                <input matInput formControlName="respiratoryRate">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tagus-form-group">
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Sistema agregar en BD</mat-label>
+                                        <textarea matInput rows="3" maxlength="250"
+                                            formControlName="bodyCondition"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">symptoms</span>
+                                    Sistema ocular
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema ocular</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">gastroenterology</span>
+                                    Sistema digestivo
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Vomito</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Vomito</mat-label>
+                                                <mat-select formControlName="vomiting"
+                                                    [class.is-invalid]="form.get('vomiting')!.touched && form.get('vomiting')!.invalid">
+                                                    <mat-option *ngFor="let record of booleanList"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Diarrea</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Diarrea</mat-label>
+                                                <mat-select formControlName="diarrhea"
+                                                    [class.is-invalid]="form.get('diarrhea')!.touched && form.get('diarrhea')!.invalid">
+                                                    <mat-option *ngFor="let record of booleanList"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Apetito</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Apetito</mat-label>
+                                                <mat-select formControlName="appetite"
+                                                    [class.is-invalid]="form.get('appetite')!.touched && form.get('appetite')!.invalid">
+                                                    <mat-option *ngFor="let record of booleanList"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema digestivo</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">ulna_radius_alt</span>
+                                    Sistema musculo esqueletico
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Peso</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Kg</mat-label>
+                                                <input matInput formControlName="weight">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema musculo esqueletico</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">dermatology</span>
+                                    Sistema tegumentario
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Color de Mucosas</label>
+                                            <mat-form-field appearance="fill" class="example-full-width">
+                                                <i class="ri-list-check"></i>
+                                                <mat-label>Color de Mucosas</mat-label>
+                                                <mat-select formControlName="mucousMembraneColor"
+                                                    [class.is-invalid]="form.get('mucousMembraneColor')!.touched && form.get('mucousMembraneColor')!.invalid">
+                                                    <mat-option *ngFor="let record of mucousMembraneColors"
+                                                        [value]="record.code">
+                                                        {{record.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">
+                                                Condición Corporal</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Condición Corporal</mat-label> 
+                                                <textarea matInput rows="3" maxlength="125"
+                                                    formControlName="bodyCondition" ></textarea>
+                                                <!-- arreglar -->
+                                                <!-- <input formControlName="bodyCondition" maxlength="1"> -->
+                                            </mat-form-field>   
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Porcentaje de
+                                                Deshidratación</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Porcentaje de Deshidratación</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="dehydrationPercentage"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <label class="d-block mb-12 fw-semibold gray-color">Piel y pelaje</label>
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Piel y pelaje</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="skinFur"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema tegumentario</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">urology</span>
+                                    Sistema urinario
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema urinario</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">gynecology</span>
+                                    Sistema reproductivo
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema reproductivo</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <span class="material-symbols-outlined">neurology</span>
+                                    Sistema nervioso
+                                </ng-template>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <pre></pre>
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Sistema nervioso</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="bodyCondition"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                        <pre></pre>
+                        <pre></pre>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Temperatura</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Temperatura</mat-label>
+                                        <textarea matInput rows="1" maxlength="6"
+                                            formControlName="temperture"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Alimentación</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Alimentación</mat-label>
+                                        <textarea matInput rows="3" maxlength="250"
+                                            formControlName="diet"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Anamnesis</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Anamnesis</mat-label>
+                                        <textarea matInput rows="3" maxlength="250"
+                                            formControlName="anamnesis"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-6">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Enfermedades de
+                                        Importancia</label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-information-line"></i>
+                                        <mat-label>Enfermedades de Importancia</mat-label>
+                                        <textarea matInput rows="3" maxlength="250"
+                                            formControlName="importantDiseases"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <!--Posible diagnostico-->
+                <!-- <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Posible Diagnóstico</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card> -->
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Seguimiento</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-tab-group>
+                            <mat-tab label="Diagnostico presuntivo">
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Diagnostico presuntivo</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="diagnosis"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Diagnostico diferencial">
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Diagnostico diferencial</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="diferencialDiagnosis"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Exámenes complementarios">
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Exámenes complementarios / Archivos</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="complementaryTest"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Diagnóstico definitivo">
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Diagnóstico definitivo</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="finalDiagnosis"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Tratamiento">
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-6">
+                                        <div class="tagus-form-group">
+                                            <mat-form-field appearance="fill">
+                                                <i class="ri-information-line"></i>
+                                                <mat-label>Tratamiento</mat-label>
+                                                <textarea matInput rows="3" maxlength="250"
+                                                    formControlName="treatment"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Seguimiento</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <input type="file" (change)="onFileSelected($event)">
+                        <button (click)="uploadFile()">Subir archivo</button>
+                    </mat-card-content>
+                </mat-card>
+                <!--Examenes complementarios-->
+                <!-- <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Exámenes complementarios</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                    </mat-card-content>
+                </mat-card> -->
+                <!--Diagnostico definitivo-->
+                <!-- <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Diagnóstico definitivo</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card> -->
+                <!--Tratamiento-->
+                <!-- <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Tratamiento</h5>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <mat-card class="mb-25 tagus-card">
+                    <mat-card-header class="border-bottom">
+                        <div class="mat-card-header-text">
+                            <h5 class="mb-0">Procedimientos/Servicios</h5>
+                        </div>
+                        <div class="mat-card-header-actions">
+                            <button mat-flat-button color="primary" (click)="onSave($event)"
+                                class="me-5">Guardar</button>
+                            <button mat-flat-button color="warn" (click)="onCancel()"><i
+                                    class="ri-arrow-go-back-line"></i>
+                                Cancelar</button>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-6">
+                                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                    <i class="ri-home-2-line"></i>
+                                    Consulta Médica Veterinaria
+                                    <button mat-flat-button color="warn" class="align-right">Eliminar</button>
+                                    <button mat-flat-button color="primary" class="align-right">Agregar</button>
+                                </div>
+                                <mat-tab-group>
+                                    <mat-tab label="Procedimientos">
+                                        <br />
+                                        <div style="height: 280px; overflow-y: scroll;">
+                                            <div *ngFor="let element of veterinaryProcedures"
+                                                class="d-flex align-items-center justify-content-space-between pb-20">
+                                                <div class="d-flex align-items-center">
+                                                    <!-- <img src="assets/img/user/user22.jpg" width="57"
+                                                    class="rounded-circle" alt="user"> -->
+                                                    <div class="ms-15">
+                                                        <h5 class="mb-5 d-inline-block">{{element.procedure!.name}}</h5>
+                                                        <br />
+                                                        <span class="badge text-outline-tagus me-15">${{element.price|
+                                                            number}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="socials">
+                                                    <a mat-flat-button class="small"
+                                                        (click)="onDeleteProcedure(element)">Eliminar</a>
+                                                    <a mat-flat-button class="gray small"
+                                                        (click)="onAddProcedure(element)">Agregar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Servicios">
+                                        <br />
+                                        <div style="height: 280px; overflow-y: scroll;">
+                                            <div *ngFor="let element of veterinaryServices"
+                                                class="d-flex align-items-center justify-content-space-between pb-20">
+                                                <div class="d-flex align-items-center">
+                                                    <!-- <img src="assets/img/user/user22.jpg" width="57"
+                                                    class="rounded-circle" alt="user"> -->
+                                                    <div class="ms-15">
+                                                        <h5 class="mb-5 d-inline-block">{{element.service!.name}}</h5>
+                                                        <br />
+                                                        <span class="badge text-outline-tagus me-15">${{element.price|
+                                                            number}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="socials">
+                                                    <a mat-flat-button class="small"
+                                                        (click)="onDeleteService(element)">Eliminar</a>
+                                                    <a mat-flat-button class="gray small"
+                                                        (click)="onAddService(element)">Agregar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Medicamentos">
+                                        <br />
+                                        <div style="height: 280px; overflow-y: scroll;">
+                                            <div *ngFor="let element of veterinaryProcedures"
+                                                class="d-flex align-items-center justify-content-space-between pb-20">
+                                                <div class="d-flex align-items-center">
+                                                    <!-- <img src="assets/img/user/user22.jpg" width="57"
+                                                    class="rounded-circle" alt="user"> -->
+                                                    <div class="ms-15">
+                                                        <h5 class="mb-5 d-inline-block">{{element.procedure!.name}}</h5>
+                                                        <br />
+                                                        <span class="badge text-outline-tagus me-15">${{element.price|
+                                                            number}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="socials">
+                                                    <a mat-flat-button class="small"
+                                                        (click)="onDeleteProcedure(element)">Eliminar</a>
+                                                    <a mat-flat-button class="gray small"
+                                                        (click)="onAddProcedure(element)">Agregar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                                <!-- <mat-card class="mb-25 tagus-card">
+                                    <mat-card-header class="border-bottom">
+                                        <h5 class="mb-0" matBadge="{{saveAppointmentCommand.procedures?.length}}"
+                                            matBadgeOverlap="false">Procedimientos</h5>
+                                    </mat-card-header>
+                                    <mat-card-content style="height: 240px; overflow-y: scroll;">
+                                        
+                                    </mat-card-content>
+                                </mat-card>
+                                <mat-card class="mb-25 tagus-card">
+                                    <mat-card-header class="border-bottom">
+                                        <h5 class="mb-0" matBadge="{{saveAppointmentCommand.services?.length}}"
+                                            matBadgeOverlap="false">Servicios</h5>
+                                    </mat-card-header>
+                                    <mat-card-content style="height: 240px; overflow-y: scroll;">
+                                        
+                                    </mat-card-content>
+                                </mat-card> -->
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-6">
+                                <mat-card class="mb-25 tagus-card">
+                                    <mat-card-header class="border-bottom">
+                                        <h5 class="mb-0">Resumen del pedido</h5>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="table-responsive">
+                                            <table class="">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="fw-semibold main-color">No</th>
+                                                        <th class="fw-semibold gray-color text-start">Concepto</th>
+                                                        <th class="fw-semibold gray-color">Cantidad</th>
+                                                        <th class="fw-semibold gray-color">Precio Unitario</th>
+                                                        <th class="fw-semibold gray-color text-end">Precio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngIf="saveAppointmentCommand.procedures?.length!=0">
+                                                        <td colspan="5" style="text-align: left;">
+                                                            <h5>Procedimientos</h5>
+                                                        </td>
+                                                    </tr>
+                                                    <tr
+                                                        *ngFor="let record of saveAppointmentCommand.procedures;let indexOfelement=index;">
+                                                        <td class="main-color fw-semibold">{{indexOfelement + 1}}.
+                                                        </td>
+                                                        <td class="text-start fw-semibold">
+                                                            {{record.procedureName}}
+                                                        </td>
+                                                        <td class="gray-color">{{record.quantity}}</td>
+                                                        <td class="gray-color">${{record.price|number}}</td>
+                                                        <td class="gray-color text-end">
+                                                            ${{(record.quantity!*record.price!)|number}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="saveAppointmentCommand.services?.length!=0">
+                                                        <td style="text-align: left;">
+                                                            <h5>Servicios</h5>
+                                                        </td>
+                                                        <td colspan="4"></td>
+                                                    </tr>
+                                                    <tr
+                                                        *ngFor="let record of saveAppointmentCommand.services;let indexOfelement=index;">
+                                                        <td class="main-color fw-semibold">{{indexOfelement + 1}}.
+                                                        </td>
+                                                        <td class="text-start fw-semibold">
+                                                            {{record.serviceName}}
+                                                        </td>
+                                                        <td class="gray-color">{{record.quantity}}</td>
+                                                        <td class="gray-color">${{record.price|number}}</td>
+                                                        <td class="gray-color text-end">
+                                                            ${{(record.quantity!*record.price!)|number}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="gray-color fw-semibold">Sub Total:</td>
+                                                        <td class="gray-color fw-semibold text-end">
+                                                            ${{subTotal|number}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="gray-color fw-semibold">Impuestos:</td>
+                                                        <td class="gray-color fw-semibold text-end">${{tax|number}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="gray-color fw-semibold">Envío:</td>
+                                                        <td class="gray-color fw-semibold text-end">$0</td>
+                                                    </tr>
+                                                    <tr class="total">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="fw-semibold">Total:</td>
+                                                        <td class="fw-semibold text-end">${{total|number}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+</div>

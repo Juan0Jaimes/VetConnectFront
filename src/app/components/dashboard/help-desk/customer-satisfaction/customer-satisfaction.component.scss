@@ -1,0 +1,33 @@
+.customer-satisfaction-box {
+    .content {
+        left: 0;
+        right: 0;
+        top: 43%;
+        position: absolute;
+        pointer-events: none;
+        transform: translateY(-43%);
+
+        h5 {
+            margin-bottom: 3px;
+            font: {
+                size: 28px;
+                family: var(--fontFamily) !important;
+            };
+        }
+    }
+}
+
+@media only screen and (max-width : 767px) {
+
+    .customer-satisfaction-box {
+        .content {
+            top: 40%;
+            transform: translateY(-40%);
+    
+            h5 {
+                font-size: 22px;
+            }
+        }
+    }
+
+}

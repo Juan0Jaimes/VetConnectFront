@@ -1,0 +1,12 @@
+<div class="tagus-form-group" [formGroup]="formGroup">
+    <mat-form-field appearance="fill" class="example-full-width">
+        <i class="ri-list-check"></i>
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select formControlName="veterinaryDocumentType" (selectionChange)="onSelectChange($event)"
+            [class.is-invalid]="formGroup.get('veterinaryDocumentType')!.touched && formGroup.get('veterinaryDocumentType')!.invalid">
+            <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.code">
+                {{documentType.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

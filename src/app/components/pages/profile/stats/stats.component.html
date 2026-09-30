@@ -1,0 +1,47 @@
+<div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutGap="25px"
+    fxLayoutGap.xs="0"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box mb-25 tagus-card">
+            <div class="d-flex align-items-center">
+                <div class="icon">
+                    <i class="flaticon-donut-chart"></i>
+                </div>
+                <div class="title">
+                    <span class="d-block gray-color">Total Projects</span>
+                    <h3>24K</h3>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box mb-25 tagus-card">
+            <div class="d-flex align-items-center">
+                <div class="icon">
+                    <i class="flaticon-goal"></i>
+                </div>
+                <div class="title">
+                    <span class="d-block gray-color">Pending Projects</span>
+                    <h3>155K</h3>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box mb-25 tagus-card">
+            <div class="d-flex align-items-center">
+                <div class="icon">
+                    <i class="flaticon-award"></i>
+                </div>
+                <div class="title">
+                    <span class="d-block gray-color">Total Revenue</span>
+                    <h3>$50.5M</h3>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

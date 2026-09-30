@@ -1,0 +1,133 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Servicios</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item gray-color">Admin</li>
+        <li class="breadcrumb-item fw-semibold">Servicios</li>
+    </ol>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-md-12">
+        <mat-card class="mb-25 tagus-card">
+            <mat-card-header>
+                <h5 class="mb-0">Listado de Servicios</h5>
+                <button mat-flat-button class="default-btn tagus" (click)="onAdd($event)" *ngIf="!isEditing">
+                    <i class="ri-add-fill"></i> Crear Servicio
+                </button>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="myTasksTable mat-elevation-z8 tagus-mat-table">
+                    <table mat-table [dataSource]="dataSource" *ngIf="!isEditing">
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef class="text-start">Nombre</th>
+                            <td mat-cell *matCellDef="let element" class="text-start">
+                                <div class="d-flex align-items-center">
+                                    {{element.name}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- CreatedBy Column -->
+                        <ng-container matColumnDef="createdBy">
+                            <th mat-header-cell *matHeaderCellDef class="text-start">Creado Por</th>
+                            <td mat-cell *matCellDef="let element" class="text-start">
+                                <div class="d-flex align-items-center">
+                                    {{element.createdBy}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- Created Column -->
+                        <ng-container matColumnDef="created">
+                            <th mat-header-cell *matHeaderCellDef class="text-start">Fecha de Creación</th>
+                            <td mat-cell *matCellDef="let element" class="text-start">
+                                <div class="d-flex align-items-center">
+                                    {{element.created | date:'MMM d, y, h:mm:ss a'}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- UpdatedBy Column -->
+                        <ng-container matColumnDef="updatedBy">
+                            <th mat-header-cell *matHeaderCellDef class="text-start">Actualizado Por</th>
+                            <td mat-cell *matCellDef="let element" class="text-start">
+                                <div class="d-flex align-items-center">
+                                    {{element.updatedBy}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- Updated Column -->
+                        <ng-container matColumnDef="updated">
+                            <th mat-header-cell *matHeaderCellDef class="text-start">Fecha de Actualización</th>
+                            <td mat-cell *matCellDef="let element" class="text-start">
+                                <div class="d-flex align-items-center">
+                                    {{element.updated | date:'MMM d, y, h:mm:ss a'}}
+                                </div>
+                            </td>
+                        </ng-container> 
+                        
+                        <!-- Action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button type="button" mat-button class="position-relative dot-btn p-0 bg-transparent border-none" [matMenuTriggerFor]="actionMenu">
+                                    <i class="ri-more-fill"></i>
+                                </button>
+                                <mat-menu #actionMenu="matMenu" class="dotMenu two monthMenu" xPosition="before">
+                                    <button mat-menu-item type="button" class="bg-transparent border-none position-relative" (click)="onEdit($event, element)">
+                                        <i class="ri-edit-line"></i> Editar
+                                    </button>
+                                    <button mat-menu-item type="button" class="bg-transparent border-none position-relative" (click)="onConfirm($event, element.code)">
+                                        <i class="ri-delete-bin-line"></i> Eliminar
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator *ngIf="!isEditing"
+                    (page)="handlePageEvent($event)"
+                    [length]="length"
+                    [pageSize]="pageSize"
+                    [pageIndex]="pageNumber"
+                    [showFirstLastButtons]="showFirstLastButtons"
+                    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+                    aria-label="Select page">
+                    </mat-paginator>
+
+                    <form *ngIf="isEditing" [formGroup]="form">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="tagus-form-group">
+                                    <label class="d-block mb-12 fw-semibold gray-color">Nombre <span>*</span></label>
+                                    <mat-form-field appearance="fill">
+                                        <i class="ri-user-3-line"></i>
+                                        <mat-label>Digite el nombre del servicio</mat-label>
+                                        <input matInput name="name" formControlName="name" maxlength="64" [class.is-invalid]="form.get('name')!.touched && form.get('name')!.invalid">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <button mat-flat-button class="tagus example-buttons me-5" (click)="onSave($event)">Guardar</button>
+                                <button mat-flat-button class="gray example-buttons" (click)="onCancel($event)">Cancelar</button>
+                            </div>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

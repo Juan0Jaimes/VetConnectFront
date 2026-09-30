@@ -1,0 +1,50 @@
+<div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutGap="25px"
+    fxLayoutGap.xs="0"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <h3>$25,890</h3>
+                    <span class="d-block gray-color">Total Sales</span>
+                </div>
+                <div class="icon">
+                    <i class="flaticon-donut-chart"></i>
+                </div>
+            </div>
+            <p class="position-relative up"><i class="flaticon-trend"></i> <span>1.3%</span> Up from past week</p>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <h3>$100.5M</h3>
+                    <span class="d-block gray-color">Total Orders</span>
+                </div>
+                <div class="icon">
+                    <i class="flaticon-goal"></i>
+                </div>
+            </div>
+            <p class="position-relative up"><i class="flaticon-trend"></i> <span>0.5%</span> Up from past week</p>
+        </mat-card>
+    </div>
+    <div fxFlex="33.333333%" fxFlex.xs="100%" class="col">
+        <mat-card class="single-stats-box tagus-card mb-25">
+            <div class="d-flex justify-content-space-between align-items-center">
+                <div class="title">
+                    <h3>50.5M</h3>
+                    <span class="d-block gray-color">Total Customers</span>
+                </div>
+                <div class="icon">
+                    <i class="flaticon-award"></i>
+                </div>
+            </div>
+            <p class="position-relative down"><i class="flaticon-trend-1"></i> <span>1%</span> Down from past week</p>
+        </mat-card>
+    </div>
+</div>

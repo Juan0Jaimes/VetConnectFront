@@ -1,0 +1,65 @@
+<mat-card
+    class="mb-25 tagus-card trading-box"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <mat-card-header>
+        <h5 class="mb-0">Trading</h5>
+        <div class="buttons-list">
+            <button mat-button>Buy</button>
+            <button mat-button>Sell</button>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="content d-flex align-items-center justify-content-space-between">
+            <span class="fw-semibold">Buy Coin</span>
+            <span class="fw-semibold">USD Balance : <span>$12,426.07</span></span>
+        </div>
+        <div class="trading-form">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="fw-semibold d-block">Currency :</label>
+                            <select>
+                                <option selected>BTC</option>
+                                <option value="1">ETH</option>
+                                <option value="2">LTC</option>
+                                <option value="3">CDR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="fw-semibold d-block">Payment Method :</label>
+                            <input type="text" placeholder="Credit / Debit Card">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group">
+                            <span class="input-group-text fw-semibold gray-color">Amount</span>
+                            <input type="text" placeholder="Bitcoin-24.97311243BTC">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group two">
+                            <span class="input-group-text fw-semibold gray-color">Price</span>
+                            <input type="text" placeholder="00">
+                            <span class="input-group-text fw-semibold gray-color">$</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group">
+                            <span class="input-group-text fw-semibold gray-color">Total</span>
+                            <input type="text" placeholder="00">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-md-flex align-items-center justify-content-space-between">
+                    <span class="gray-color">Transaction Fees(0.05%)</span>
+                    <button mat-flat-button class="tagus">Buy Coin</button>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+</mat-card>

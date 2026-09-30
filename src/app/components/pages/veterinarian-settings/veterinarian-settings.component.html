@@ -1,0 +1,207 @@
+<app-settings></app-settings>
+
+<!-- Stats Row -->
+<div class="row mb-25" [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+    <div class="col-lg-4 col-md-4 col-sm-12 mb-15">
+        <mat-card class="tagus-card stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <div class="stat-icon stat-icon--staff">
+                        <i class="ri-team-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">TOTAL STAFF</span>
+                        <span class="stat-value">{{length}} Especialistas</span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 mb-15">
+        <mat-card class="tagus-card stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <div class="stat-icon stat-icon--active">
+                        <i class="ri-checkbox-circle-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">ACTIVOS</span>
+                        <span class="stat-value">{{activeCount}} de turno</span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 mb-15">
+        <mat-card class="tagus-card stat-card">
+            <mat-card-content>
+                <div class="stat-content">
+                    <div class="stat-icon stat-icon--urgency">
+                        <i class="ri-first-aid-kit-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">URGENCIAS</span>
+                        <span class="stat-value">{{urgenciasCount}} Disponibles</span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<!-- Cards Grid (list mode) -->
+<ng-container *ngIf="!isEditing">
+    <div class="row vet-cards-row">
+
+        <!-- Vet Card for each item -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-25" *ngFor="let vet of veterinariansList">
+            <mat-card class="tagus-card vet-card">
+                <mat-card-content>
+                    <div class="vet-card-header">
+                        <div class="vet-avatar-wrap">
+                            <div class="vet-avatar">
+                                <i class="ri-user-3-line vet-avatar-icon"></i>
+                            </div>
+                        </div>
+                        <div class="vet-name-info">
+                            <h6 class="mb-0 vet-fullname">{{vet.firstName}} {{vet.lastName}}</h6>
+                            <span class="badge-role">Veterinario</span>
+                        </div>
+                        <div class="vet-actions">
+                            <button mat-icon-button class="action-btn edit-btn" (click)="onEdit($event, vet)" title="Editar">
+                                <i class="ri-pencil-line"></i>
+                            </button>
+                            <button mat-icon-button class="action-btn delete-btn" (click)="onConfirm($event, vet.code!)" title="Eliminar">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="vet-info-grid">
+                        <div class="vet-info-item">
+                            <span class="info-label">Documento</span>
+                            <span class="info-value">{{vet.documentType?.name}} - {{vet.identificationNumber}}</span>
+                        </div>
+                        <div class="vet-info-item">
+                            <span class="info-label">Clínica</span>
+                            <span class="info-value clinic-link">{{vet.veterinary?.name}}</span>
+                        </div>
+                        <div class="vet-info-item full-width">
+                            <span class="info-label">Correo Electrónico</span>
+                            <span class="info-value email-link">{{vet.email}}</span>
+                        </div>
+                        <div class="vet-info-item">
+                            <span class="info-label">Teléfono</span>
+                            <span class="info-value">{{vet.phoneNumber}}</span>
+                        </div>
+                        <div class="vet-info-item">
+                            <span class="info-label">Perfil</span>
+                            <span class="info-value profile-link">{{vet.profile?.name}}</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Add New Vet Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-25">
+            <mat-card class="tagus-card vet-card add-vet-card" (click)="onAdd($event)">
+                <mat-card-content>
+                    <div class="add-vet-content">
+                        <div class="add-vet-icon-wrap">
+                            <i class="ri-user-add-line"></i>
+                        </div>
+                        <span class="add-vet-label">Registrar nuevo Veterinario</span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+    </div>
+
+    <!-- Custom Pagination -->
+    <div class="vet-pagination-bar">
+        <span class="page-size-label">Elementos por página: <strong>{{pageSize}}</strong></span>
+        <span class="page-range-label">{{pageRangeStart}} - {{pageRangeEnd}} de {{length}}</span>
+        <div class="page-nav-btns">
+            <button mat-icon-button [disabled]="pageNumber === 1" (click)="prevPage()">
+                <i class="ri-arrow-left-s-line"></i>
+            </button>
+            <button mat-icon-button [disabled]="pageRangeEnd >= length" (click)="nextPage()">
+                <i class="ri-arrow-right-s-line"></i>
+            </button>
+        </div>
+    </div>
+</ng-container>
+
+<!-- Create / Edit Form -->
+<mat-card class="mb-25 tagus-card" *ngIf="isEditing">
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">{{record?.code ? 'Editar Veterinario' : 'Nuevo Veterinario'}}</h5>
+    </mat-card-header>
+    <eco-fab-speed-dial direction="left" animationMode="scale" style="position: fixed; bottom: 16px; right: 16px; z-index: 1000;">
+        <eco-fab-speed-dial-trigger>
+          <button mat-fab color="primary"><mat-icon fontIcon="menu"></mat-icon></button>
+        </eco-fab-speed-dial-trigger>
+        <eco-fab-speed-dial-actions>
+          <button mat-mini-fab color="primary" (click)="onSave($event)"><mat-icon fontIcon="save"></mat-icon></button>
+          <button mat-mini-fab color="primary" (click)="onCancel()"><mat-icon fontIcon="undo"></mat-icon></button>
+        </eco-fab-speed-dial-actions>
+    </eco-fab-speed-dial>
+    <form [formGroup]="form">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Nombre <span>*</span></label>
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Digite nombre</mat-label>
+                        <input matInput name="name" formControlName="veterinarianFirstName"
+                        [class.is-invalid]="form.get('veterinarianFirstName')!.touched && form.get('veterinarianFirstName')!.invalid">
+                    </mat-form-field>
+                </div>
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Apellido <span>*</span></label>
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Digite apellido</mat-label>
+                        <input matInput name="lastName" formControlName="veterinarianLastName"
+                        [class.is-invalid]="form.get('veterinarianLastName')!.touched && form.get('veterinarianLastName')!.invalid">
+                    </mat-form-field>
+                </div>
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Tipo de documento<span>*</span></label>
+                    <app-document-type-select [formGroup]="form" [selectedDocumentType]="record.documentType?.code!" (outputRaiseEvent)="onHandleDocumentType($event)"></app-document-type-select>
+                </div>
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Numero de documento <span>*</span></label>
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Digite numero de documento</mat-label>
+                        <input matInput name="identificationNumber" formControlName="veterinarianIdentificationNumber"
+                        [class.is-invalid]="form.get('veterinarianIdentificationNumber')!.touched && form.get('veterinarianIdentificationNumber')!.invalid">
+                    </mat-form-field>
+                </div>
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Correo <span>*</span></label>
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Digite correo</mat-label>
+                        <input matInput name="email" formControlName="veterinarianEmail"
+                        [class.is-invalid]="form.get('veterinarianEmail')!.touched && form.get('veterinarianEmail')!.invalid">
+                    </mat-form-field>
+                </div>
+                <div class="tagus-form-group">
+                    <label class="d-block mb-12 fw-semibold gray-color"> Celular <span>*</span></label>
+                    <mat-form-field appearance="fill">
+                        <i class="ri-user-3-line"></i>
+                        <mat-label>Digite celular</mat-label>
+                        <input matInput name="phoneNumber" formControlName="veterinarianPhoneNumber"
+                        [class.is-invalid]="form.get('veterinarianPhoneNumber')!.touched && form.get('veterinarianPhoneNumber')!.invalid">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </form>
+</mat-card>

@@ -1,0 +1,8 @@
+node_modules
+.angular
+dist/3rdpartylicenses.txt
+dist/index.html
+
+.angular/
+node_modules/
+dist/

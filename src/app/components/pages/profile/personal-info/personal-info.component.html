@@ -1,0 +1,77 @@
+<mat-card class="mb-25 personal-info-card tagus-card" [class.component-dark-theme]="themeService.isDark()">
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">Información Personal</h5>
+    </mat-card-header>
+    <mat-card-content>
+        <!-- <span class="d-block fw-semibold mb-5">About Me:</span>
+        <p>Hi I'm Andrew Burns, has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a industry.</p> -->
+        <ul class="list ps-0 mb-0">
+            <li>
+                <span class="fw-semibold d-inline-block">Nombre Completo:</span>
+                <span class="gray-color">{{user.firstName}} {{user.lastName}}</span>
+            </li>
+            <li>
+                <span class="fw-semibold d-inline-block">Tipo de Documento:</span>
+                <span class="gray-color">{{user.documentType?.name}}</span>
+            </li>
+            <li>
+                <span class="fw-semibold d-inline-block">Número de Identificación:</span>
+                <span class="gray-color">{{user.identificationNumber}}</span>
+            </li>
+            <li>
+                <span class="fw-semibold d-inline-block">Email:</span>
+                <span class="gray-color">{{user.email}}</span>
+            </li>
+            <li>
+                <span class="fw-semibold d-inline-block">Dirección:</span>
+                <span class="gray-color">{{user.address}}</span>
+            </li>
+            <li>
+                <span class="fw-semibold d-inline-block">Barrio:</span>
+                <span class="gray-color">{{user.neighborhood}}</span>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>
+<mat-card class="mb-25 text-center tagus-card" *ngFor="let pet of pets">
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0"><mat-icon>pets</mat-icon> {{pet.name}}</h5>
+        <button type="button" mat-button class="position-relative dot-btn p-0 bg-transparent border-none" [matMenuTriggerFor]="monthMenu">
+            <i class="ri-more-fill"></i>
+        </button>
+        <mat-menu #monthMenu="matMenu" class="dotMenu monthMenu" xPosition="before">
+            <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                <i class="ri-add-circle-line"></i> Add
+            </button>
+            <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                <i class="ri-delete-bin-6-line"></i> Delete
+            </button>
+            <button mat-menu-item type="button" class="bg-transparent border-none position-relative">
+                <i class="ri-restart-line"></i> Refresh
+            </button>
+        </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+        <img src="assets/img/pet.png" class="rounded-circle mb-15" width="150" alt="user">
+        <h5 class="mb-5 fw-semibold">{{pet.breed}}</h5>
+        <span class="d-block muted-color">{{ getAge( pet.birthdate! | date:'yyyy-MM-dd') }} año(s)</span>
+        <div class="btn-box">
+            <a mat-flat-button (click)="onViewPet(pet)"class="tagus">Ver Perfil</a>
+            <!-- <button mat-flat-button class="gray" >Crear Consulta</button> -->
+        </div>
+        <ul class="list d-flex align-items-center justify-content-space-between text-center mb-0">
+            <li class="muted-color fw-medium">
+                <span class="d-block">Sexo</span>
+                <span class="gray-color d-inline-block position-relative fw-semibold">{{pet.sex=='M'?'Macho':'Hembra'}}</span>
+            </li>
+            <li class="muted-color fw-medium down">
+                <span class="d-block">Color</span>
+                <span class="gray-color d-inline-block position-relative fw-semibold">{{pet.colour}}</span>
+            </li>
+            <li class="muted-color fw-medium down">
+                <span class="d-block">Estado Reproductivo</span>
+                <span class="gray-color d-inline-block position-relative fw-semibold">{{pet.reproductiveStatus?.name}}</span>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>

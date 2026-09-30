@@ -1,0 +1,288 @@
+// ── Host / page background fix ────────────────────────────
+:host {
+    display: block;
+    background-color: transparent;
+}
+
+.vet-cards-row {
+    background-color: transparent;
+}
+
+// ── Stats Cards ──────────────────────────────────────────
+.stat-card {
+    .mat-card-content {
+        padding: 16px !important;
+    }
+
+    .stat-content {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        background: #f0f3ff;
+        color: #5b73e8;
+
+        &.stat-icon--active {
+            background: #e8f8f0;
+            color: #2ecc71;
+        }
+
+        &.stat-icon--urgency {
+            background: #e8f4ff;
+            color: #3498db;
+        }
+    }
+
+    .stat-info {
+        display: flex;
+        flex-direction: column;
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #8a92a6;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1e2d;
+            line-height: 1.2;
+        }
+    }
+}
+
+// ── Vet Cards ─────────────────────────────────────────────
+.vet-card {
+    border-radius: 14px !important;
+    height: 100%;
+    min-height: 240px;
+
+    mat-card-content {
+        padding: 20px !important;
+        height: 100%;
+    }
+
+    .vet-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .vet-avatar-wrap {
+        position: relative;
+        flex-shrink: 0;
+
+        .vet-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #e8eaf6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .vet-avatar-icon {
+                font-size: 28px;
+                color: #5b73e8;
+            }
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2ecc71;
+            border: 2px solid #fff;
+        }
+    }
+
+    .vet-name-info {
+        flex: 1;
+
+        .vet-fullname {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1e2d;
+            line-height: 1.3;
+        }
+
+        .badge-role {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #e8f0fe;
+            color: #5b73e8;
+        }
+    }
+
+    .vet-actions {
+        display: flex;
+        gap: 2px;
+        flex-shrink: 0;
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+
+            i { font-size: 16px; }
+        }
+
+        .edit-btn { color: #8a92a6; }
+        .delete-btn { color: #e74c3c; }
+    }
+
+    .vet-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+
+        .vet-info-item {
+            display: flex;
+            flex-direction: column;
+
+            &.full-width {
+                grid-column: 1 / -1;
+            }
+
+            .info-label {
+                font-size: 10px;
+                font-weight: 600;
+                color: #8a92a6;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-bottom: 2px;
+            }
+
+            .info-value {
+                font-size: 13px;
+                color: #1a1e2d;
+                font-weight: 500;
+                word-break: break-word;
+
+                &.clinic-link,
+                &.profile-link {
+                    color: #5b73e8;
+                    font-weight: 600;
+                }
+
+                &.email-link {
+                    color: #5b73e8;
+                }
+            }
+        }
+    }
+}
+
+// ── Add New Vet Card ──────────────────────────────────────
+.add-vet-card {
+    border: 2px dashed #c8d0e7 !important;
+    background: #f8f9fd !important;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+
+    &:hover {
+        border-color: #5b73e8 !important;
+        background: #f0f3ff !important;
+
+        .add-vet-icon-wrap { background: #e0e7ff; }
+        .add-vet-label { color: #5b73e8; }
+    }
+
+    mat-card-content {
+        height: 100%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .add-vet-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .add-vet-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #e8eaf6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+
+        i {
+            font-size: 26px;
+            color: #5b73e8;
+        }
+    }
+
+    .add-vet-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #8a92a6;
+        text-align: center;
+        transition: color 0.2s;
+    }
+}
+
+// ── Pagination Bar ────────────────────────────────────────
+.vet-pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    padding: 8px 0 16px;
+    border-top: 1px solid #f0f3ff;
+    margin-top: 8px;
+
+    .page-size-label {
+        font-size: 13px;
+        color: #8a92a6;
+        strong { color: #1a1e2d; }
+    }
+
+    .page-range-label {
+        font-size: 13px;
+        color: #8a92a6;
+    }
+
+    .page-nav-btns {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        button[mat-icon-button] {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border: 1px solid #e0e3ef;
+            border-radius: 6px;
+
+            i { font-size: 18px; }
+
+            &:disabled { opacity: 0.4; }
+        }
+    }
+}

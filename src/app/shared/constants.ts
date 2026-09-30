@@ -1,0 +1,10 @@
+export const USER_TYPE_CLIENT = '2657c7f4-ef85-42df-8a1c-3fd5777a726f';
+export const USER_TYPE_DEPENDENT = 'c85b440c-e78c-4ac0-bee3-c950c5e6374d';
+export const PROFILE_USER = 'fb127bd8-e49b-48fd-b699-13d282bb8781';
+export const PROFILE_CLIENT = 'c303b1e9-088d-455c-9b16-f236c7d0ea8a';
+export const PROFILE_VETERINARIAN = 'B3025990-0B3D-44CF-9DBC-B9B009F85A7E';
+export const APPOINTMENT_STATUS_ASIGNED = '224258ad-b731-4e89-b221-0fe8e8a51fa0';
+export const APPOINTMENT_STATUS_CANCEL = 'adde1390-2c80-4529-86f7-def427438567';
+export const APPOINTMENT_DEFAULT = '4d1deb24-4ad4-491d-85a1-da55b37798b3';
+export const PERIODICITY_DAY = '4b031c30-850a-4d21-a192-b6ba6ae5110d';
+export const API_URL = 'https://localhost:7250/';

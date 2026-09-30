@@ -1,0 +1,84 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Gauge</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item gray-color">Apexcharts</li>
+        <li class="breadcrumb-item fw-semibold">Gauge</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <mat-card class="mb-25 tagus-card text-center">
+            <mat-card-content>
+                <ngx-gauge [value]="68.2"></ngx-gauge>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-xl-4 col-lg-8 col-md-6">
+        <mat-card class="mb-25 tagus-card text-center">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <!-- full type gauge -->
+                        <ngx-gauge type="full" [value]="68" [thick]="5" [size]="120" label="Speed" append="mph"></ngx-gauge>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <!-- semi type gauge -->
+                        <ngx-gauge type="semi" [value]="68" [thick]="5" [size]="120" label="Speed" append="mph"></ngx-gauge>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <!-- arch type gauge -->
+                        <ngx-gauge type="arch" [value]="68" [thick]="5" [size]="120" label="Speed" append="mph"></ngx-gauge>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-xl-4 col-lg-8 col-md-6">
+        <mat-card class="mb-25 tagus-card text-center">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <ngx-gauge [size]="180" type="arch" [thick]="15" [value]="68" cap="butt" label="Speed" append="mph"></ngx-gauge>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <ngx-gauge [size]="180" type="arch" [thick]="15" [value]="68" cap="round" label="Speed" append="mph"></ngx-gauge>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <mat-card class="mb-25 tagus-card text-center">
+            <mat-card-content>
+                <ngx-gauge [size]="180" type="arch" [thick]="7" [value]="68.2" cap="round" label="Revenue" append="%">
+                    <ngx-gauge-prepend>
+                        <i class="ri-arrow-up-s-fill" style="color: green"></i>
+                    </ngx-gauge-prepend>
+                </ngx-gauge>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <mat-card class="mb-25 tagus-card text-center">
+            <mat-card-content>
+                <ngx-gauge [size]="180" 
+                    type="arch" 
+                    [thick]="10" 
+                    [value]="68.2" 
+                    cap="butt" 
+                    label="Revenue" 
+                    append="%"
+                    [markers]="markerConfig"
+                >
+                </ngx-gauge>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,206 @@
+.profile-card-box {
+    .top {
+        padding: 25px 110px 45px 25px;
+        background-color: #EAEDFB;
+
+        h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        img {
+            right: 0;
+            bottom: 0;
+            max-width: 135px;
+            position: absolute;
+        }
+        p {
+            font-size: 13.5px;
+        }
+    }
+    .bottom {
+        padding: 0 20px 25px 25px;
+
+        .profile-box {
+            margin-top: -20px;
+
+            img {
+                width: 65px;
+                margin-bottom: 10px;
+                border: 4px solid var(--whiteColor);
+            }
+            h5 {
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+            span {
+                font-size: 13.5px;
+            }
+        }
+        .impression-box {
+            span {
+                font-size: 13px;
+                color: #00B69B;
+                margin: {
+                    bottom: 5px;
+                    top: -6px;
+                };
+            }
+            h5 {
+                font-size: 13px;
+            }
+        }
+    }
+    &.component-dark-theme {
+        .top {
+            background-color: #1e2227;
+        }
+        .bottom {
+            .profile-box {    
+                img {
+                    border-color: #000000;
+                }
+            }
+        }
+        &.card-borderd-theme {
+            box-shadow: var(--borderWhiteBoxShadow) !important;
+        }
+    }
+    &.card-borderd-theme {
+        box-shadow: var(--borderBoxShadow) !important;
+    }
+    &.card-border-radius {
+        border-radius: 0 !important;
+
+        .border-top-radius {
+            border-radius: 0 !important;
+        }
+    }
+    &.component-rtl-enabled {
+        .top {
+            padding: {
+                left: 110px;
+                right: 25px;
+            };
+            img {
+                right: auto;
+                left: 0;
+            }
+        }
+        .bottom {
+            padding: {
+                left: 20px;
+                right: 25px;
+            };
+        }
+    }
+}
+
+@media only screen and (max-width : 767px) {
+
+    .profile-card-box {
+        .top {
+            padding: 20px 20px 40px;
+    
+            h4 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            img {
+                max-width: 100%;
+                position: relative;
+                margin-bottom: 15px;
+            }
+        }
+        .bottom {
+            padding: 0 20px 20px 20px;
+    
+            .profile-box {
+                margin-bottom: 10px;
+            }
+            .impression-box {
+                text-align: left !important;
+
+                span {
+                    margin: {
+                        bottom: 5px;
+                        top: 5px;
+                    };
+                }
+            }
+        }
+        &.component-rtl-enabled {
+            .top {
+                padding: {
+                    left: 20px;
+                    right: 20px;
+                };
+            }
+            .bottom {
+                padding: {
+                    left: 20px;
+                    right: 20px;
+                };
+                .impression-box {
+                    text-align: right !important;
+                }
+            }
+        }
+    }
+
+}
+
+@media only screen and (min-width: 1600px) {
+
+    .profile-card-box {
+        .top {
+            padding: 25px 165px 45px 25px;
+    
+            h4 {
+                font-size: 20px;
+            }
+            p {
+                font-size: var(--fontSize);
+            }
+            img {
+                max-width: 100%;
+            }
+        }
+        .bottom {
+            padding: 0 25px 25px 25px;
+    
+            .profile-box {
+                margin-top: -20px;
+    
+                h5 {
+                    font-size: 17px;
+                }
+                span {
+                    font-size: 14px;
+                }
+            }
+            .impression-box {
+                span {
+                    font-size: 13px;
+                }
+                h5 {
+                    font-size: 14px;
+                }
+            }
+        }
+        &.component-rtl-enabled {
+            .top {
+                padding: {
+                    left: 165px;
+                    right: 25px;
+                };
+            }
+            .bottom {
+                padding: {
+                    left: 25px;
+                    right: 25px;
+                };
+            }
+        }
+    }
+
+}

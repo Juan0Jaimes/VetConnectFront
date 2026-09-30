@@ -1,0 +1,41 @@
+<mat-card
+    class="mb-25 sessions-device-box tagus-card"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <mat-card-header class="border-bottom">
+        <h5 class="mb-0">Sessions Device</h5>
+        <button type="button" mat-button class="position-relative dot-btn p-0 bg-transparent border-none" [matMenuTriggerFor]="monthMenu">
+            <i class="ri-more-fill"></i>
+        </button>
+        <mat-menu #monthMenu="matMenu" class="monthMenu" xPosition="before">
+            <button mat-menu-item type="button" class="bg-transparent border-none">Today</button>
+            <button mat-menu-item type="button" class="bg-transparent border-none">Last Month</button>
+            <button mat-menu-item type="button" class="bg-transparent border-none">Last Year</button>
+            <button mat-menu-item type="button" class="bg-transparent border-none">All Time</button>
+        </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="chart">
+            <apx-chart
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [plotOptions]="chartOptions.plotOptions!"
+                [labels]="chartOptions.labels!"
+                [colors]="chartOptions.colors!"
+            ></apx-chart>
+        </div>
+        <ul class="list mb-0">
+            <li class="d-flex align-items-center justify-content-space-between position-relative">
+                <span class="gray-color">Mobile</span>
+                <span class="gray-color fw-semibold">15,684</span>
+                <span class="gray-color"><i class="flaticon-bar-chart-4"></i> 40%</span>
+            </li>
+            <li class="d-flex align-items-center justify-content-space-between position-relative">
+                <span class="gray-color">Laptop</span>
+                <span class="gray-color fw-semibold">36,868</span>
+                <span class="gray-color"><i class="flaticon-bar-chart-4"></i> 60%</span>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>

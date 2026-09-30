@@ -1,0 +1,13 @@
+<div class="tagus-form-group" [formGroup]="formGroup">
+  <mat-form-field appearance="fill" class="example-full-width">
+    <i class="ri-list-check"></i>
+    <mat-label>Ciudad</mat-label>
+    <mat-select formControlName="veterinaryCity"
+                (selectionChange)="onSelectChange($event)"
+                [class.is-invalid]="formGroup.get('veterinaryCity')!.touched && formGroup.get('veterinaryCity')!.invalid">
+      <mat-option *ngFor="let city of cities" [value]="city.code">
+        {{city.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
